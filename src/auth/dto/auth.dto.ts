@@ -8,8 +8,10 @@ import {
 	IsOptional,
 } from "class-validator";
 
-export class RegisterSchema {
+export class createUserDto {
+	@IsOptional()
 	firstName: string;
+	@IsOptional()
 	lastName: string;
 	@IsEmail()
 	email: string;
@@ -34,7 +36,7 @@ export class RegisterSchema {
 	password: string;
 }
 
-export class LoginSchema {
+export class LoginUserDto {
 	@IsOptional()
 	@IsString()
 	username?: string;

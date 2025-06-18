@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common";
 import * as argon from "argon2";
 import { PrismaService } from "src/prisma/prisma.service";
-import { LoginSchema, RegisterSchema } from "./dto";
+import { LoginUserDto, createUserDto } from "./dto";
 import { PrismaClientKnownRequestError } from "generated/prisma/runtime/library";
 import { User } from "generated/prisma";
 import { JwtService } from "@nestjs/jwt";
@@ -18,7 +18,7 @@ export class AuthService {
 		private jwt: JwtService,
 	) {}
 
-	async register(body: RegisterSchema) {
+	async register(body: createUserDto) {
 		try {
 			const passwordHash = await argon.hash(body.password);
 
@@ -56,7 +56,7 @@ export class AuthService {
 		}
 	}
 
-	async login(body: LoginSchema) {
+	async login(body: LoginUserDto) {
 		const username = body.username?.trim();
 		const email = body.email?.toLowerCase().trim();
 
