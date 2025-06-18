@@ -83,13 +83,19 @@ export class AuthService {
 		return this.signToken(existingUser);
 	}
 
-	async signToken(user: Pick<User, "id" | "email" | "username">) {
+	async signToken(
+		user: Pick<User, "id" | "email" | "username">,
+	): Promise<{ success: boolean; accessToken: string }> {
 		const payload = {
 			sub: user.id,
 			username: user.username,
 			email: user.email,
 		};
 
-		return this.jwt.signAsync(payload);
+		const accessToken = await this.jwt.signAsync(payload);
+		return {
+			success: true,
+			accessToken,
+		};
 	}
 }
