@@ -27,14 +27,16 @@ export class AuthService {
 
 			const newUser = await this.prisma.user.create({
 				data: {
-					firstName: body.firstName?.trim().toLowerCase(),
-					lastName: body.lastName?.trim().toLowerCase(),
+					firstName: body.firstName.trim().toLowerCase(),
+					lastName: body.lastName.trim().toLowerCase(),
 					email,
 					username,
 					passwordHash,
 				},
 				select: {
 					id: true,
+					firstName: true,
+					lastName: true,
 					email: true,
 					username: true,
 					createdAt: true,
@@ -84,11 +86,13 @@ export class AuthService {
 	}
 
 	async signToken(
-		user: Pick<User, "id" | "email" | "username">,
+		user: User,
 	): Promise<{ success: boolean; accessToken: string }> {
 		const payload = {
 			sub: user.id,
 			username: user.username,
+			firstName: user.firstName,
+			lastName: user.lastName,
 			email: user.email,
 		};
 
