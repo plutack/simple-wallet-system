@@ -2,14 +2,7 @@ import { Strategy, ExtractJwt } from "passport-jwt";
 import { PassportStrategy } from "@nestjs/passport";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-
-export interface JWTPayload {
-	sub: string;
-	email: string;
-	username: string;
-	iat?: number;
-	exp?: number;
-}
+import { User } from "generated/prisma";
 
 @Injectable()
 export class JWTStrategy extends PassportStrategy(Strategy, "JWT") {
@@ -22,7 +15,7 @@ export class JWTStrategy extends PassportStrategy(Strategy, "JWT") {
 		});
 	}
 
-	async validate(payload: JWTPayload): Promise<JWTPayload> {
+	async validate(payload: User): Promise<User> {
 		return payload;
 	}
 }
